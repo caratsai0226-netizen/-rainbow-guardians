@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>彩虹守護隊</title>
+
+  <style>
+    *{ margin:0; padding:0; box-sizing:border-box; }
+
+    body{
+      font-family:"Microsoft JhengHei","PingFang TC",sans-serif;
+      background:#0b4fa8;
+      overflow-x:hidden;
+    }
+
+    a{ text-decoration:none; }
+
+    .hero{
+      position:relative;
+      width:100%;
+      min-height:100vh;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.03), rgba(0,0,0,0.12)),
+        url("./assets/hero_main.jpg");
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+    }
+
+    .menu{
+      position:absolute;
+      top:28px;
+      right:30px;
+      display:flex;
+      gap:14px;
+      z-index:10;
+    }
+
+    .menu a{
+      background:rgba(255,255,255,0.2);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      color:white;
+      padding:12px 24px;
+      border-radius:999px;
+      font-size:17px;
+      font-weight:bold;
+      border:1px solid rgba(255,255,255,0.45);
+      box-shadow:0 6px 18px rgba(0,0,0,0.25);
+      text-shadow:0 2px 6px rgba(0,0,0,0.35);
+      transition:0.25s;
+    }
+
+    .menu a:hover{
+      transform:translateY(-3px) scale(1.04);
+      background:rgba(255,255,255,0.32);
+    }
+
+    .seasons{
+      background:white;
+      padding:80px 24px;
+      text-align:center;
+    }
+
+    .seasons h2{
+      font-size:42px;
+      color:#ff5fa2;
+      margin-bottom:38px;
+    }
+
+    .season-grid{
+      max-width:1500px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:18px;
+    }
+
+    .season-card{
+      background:linear-gradient(180deg,#fff8fd,#eef8ff);
+      border-radius:22px;
+      padding:24px 16px;
+      box-shadow:0 10px 24px rgba(0,0,0,0.10);
+      border:1px solid #f0f0f0;
+      display:flex;
+      flex-direction:column;
+      height:100%;
+    }
+
+    .season-card h3{
+      font-size:22px;
+      color:#2564d8;
+      margin-bottom:12px;
+      line-height:1.35;
+    }
+
+    .season-card p{
+      font-size:17px;
+      color:#666;
+      margin-bottom:22px;
+      line-height:1.6;
+      flex-grow:1;
+    }
+
+    .card-actions{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:auto;
+    }
+
+    .read-btn{
+      display:inline-block;
+      background:linear-gradient(135deg,#ff7ec7,#6ec6ff);
+      color:white;
+      padding:12px 26px;
+      border-radius:999px;
+      font-size:17px;
+      font-weight:bold;
+      box-shadow:0 8px 20px rgba(0,0,0,0.16);
+      transition:0.25s;
+    }
+
+    .read-btn:hover{
+      transform:scale(1.05);
+    }
+
+    /* Dropdown Menu Styles */
+    .dropdown {
+      position: relative;
+      width: 100%;
+    }
+    .dropdown-btn {
+      width: 100%;
+      box-sizing: border-box;
+      border: none;
+      cursor: pointer;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      z-index: 20;
+      padding: 12px 0;
+      margin-top: 8px;
+      max-height: 220px;
+      overflow-y: auto;
+      border: 1px solid #f0f0f0;
+      text-align: left;
+    }
+    .dropdown-menu.show {
+      display: block;
+    }
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 20px;
+      color: #333;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      transition: background 0.2s;
+    }
+    .dropdown-menu a:hover {
+      background: #eef8ff;
+      color: #2564d8;
+    }
+
+    /* Download Section Styles */
+    .downloads {
+      background: linear-gradient(180deg, #eef8ff, #fff8fd);
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .downloads h2 {
+      font-size: 42px;
+      color: #2564d8;
+      margin-bottom: 38px;
+    }
+    .tabs-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .tabs-header {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: white;
+      color: #666;
+      border: 2px solid #e0e0e0;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: #ff5fa2;
+      color: white;
+      border-color: #ff5fa2;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 95, 162, 0.3);
+    }
+    .tab-content {
+      display: none;
+      text-align: left;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    .ep-tabs-header {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .ep-tab-btn {
+      background: transparent;
+      color: #666;
+      border: 2px solid #ffb6c1;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .ep-tab-btn.active, .ep-tab-btn:hover {
+      background: #ffb6c1;
+      color: white;
+    }
+
+    .ep-tab-content {
+      display: none;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .ep-tab-content.active {
+      display: grid;
+    }
+
+    .download-card {
+      background: white;
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      border: 1px solid #f5f5f5;
+      display: flex;
+      flex-direction: column;
+    }
+    .download-thumb {
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 16px;
+      border: 2px dashed #ccc;
+    }
+    .download-card h4 {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    .download-card p {
+      font-size: 15px;
+      color: #666;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+    .dl-btn {
+      display: inline-block;
+      text-align: center;
+      background: linear-gradient(135deg, #a8c0ff, #3f2b96);
+      color: white;
+      padding: 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.25s;
+    }
+    .dl-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(63, 43, 150, 0.25);
+    }
+
+    footer{
+      background:#1d2a3b;
+      color:white;
+      text-align:center;
+      padding:30px 20px;
+      line-height:1.8;
+      font-size:16px;
+    }
+
+    @media(max-width:1000px){
+      .season-grid{
+        grid-template-columns:repeat(2, 1fr);
+      }
+    }
+
+    @media(max-width:768px){
+      .menu{
+        top:18px;
+        right:18px;
+        gap:10px;
+      }
+
+      .menu a{
+        font-size:15px;
+        padding:10px 18px;
+      }
+
+      .seasons{
+        padding:60px 18px;
+      }
+
+      .seasons h2{
+        font-size:32px;
+      }
+
+      .season-grid{
+        grid-template-columns:1fr;
+      }
+      .ep-tab-content {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media(max-width:480px){
+      .ep-tab-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="menu">
+      <a href="characters_page.html">角色介紹</a>
+      <a href="rainbow_stones_page.html">彩虹石圖鑑</a>
+    </div>
+  </section>
+
+  <section class="seasons">
+    <h2>彩虹守護隊故事季別</h2>
+
+    <div class="season-grid">
+
+      <div class="season-card">
+        <h3>第一季：守護隊成立</h3>
+        <p>神祕扭蛋出現，守護隊正式誕生。</p>
+        <div class="card-actions">
+          <a class="read-btn" href="ep01.html">直接看第一集</a>
+          <div class="dropdown">
+            <button class="read-btn dropdown-btn" onclick="toggleDropdown(event, 's1-menu')" style="background: linear-gradient(135deg, #a8c0ff, #3f2b96);">故事列表 ▼</button>
+            <div id="s1-menu" class="dropdown-menu">
+              <a href="ep01.html">第 1 集：神祕扭蛋</a>
+              <a href="javascript:void(0)" onclick="alert('敬請期待！')">第 2 集：初次任務</a>
+              <a href="javascript:void(0)" onclick="alert('敬請期待！')">第 3 集：未知的敵人</a>
+              <a href="javascript:void(0)" onclick="alert('敬請期待！')">第 4 集：黑暗逼近</a>
+              <a href="javascript:void(0)" onclick="alert('敬請期待！')">第 5 集：彩虹之力</a>
+              <a href="javascript:void(0)" onclick="alert('敬請期待！')">第 6 集：友誼考驗</a>
+              <a href="javascript:void(0)" onclick="alert('敬請期待！')">第 7 集：迷霧森林</a>
+              <a href="javascript:void(0)" onclick="alert('敬請期待！')">第 8 集：星空之下</a>
+              <a href="javascript:void(0)" onclick="alert('敬請期待！')">第 9 集：背水一戰</a>
+              <a href="javascript:void(0)" onclick="alert('敬請期待！')">第 10 集：迎向曙光</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="season-card">
+        <h3>第二季：彩虹石收集</h3>
+        <p>新的彩虹石現身，黑影力量開始擴張。</p>
+        <div class="card-actions">
+          <a class="read-btn" href="javascript:void(0)" onclick="alert('第二季內容努力產出中，敬請期待！')">開始閱讀</a>
+        </div>
+      </div>
+
+      <div class="season-card">
+        <h3>第三季：扭蛋機秘密</h3>
+        <p>影子扭蛋機異常，真正的秘密逐漸揭開。</p>
+        <div class="card-actions">
+          <a class="read-btn" href="javascript:void(0)" onclick="alert('第三季內容努力產出中，敬請期待！')">開始閱讀</a>
+        </div>
+      </div>
+
+      <div class="season-card">
+        <h3>第四季：影子王降臨</h3>
+        <p>黑影入侵世界，守護隊面臨最大危機。</p>
+        <div class="card-actions">
+          <a class="read-btn" href="javascript:void(0)" onclick="alert('第四季內容努力產出中，敬請期待！')">開始閱讀</a>
+        </div>
+      </div>
+
+      <div class="season-card">
+        <h3>第五季：最終決戰</h3>
+        <p>彩虹力量覺醒，最終決戰正式展開。</p>
+        <div class="card-actions">
+          <a class="read-btn" href="javascript:void(0)" onclick="alert('第五季內容努力產出中，敬請期待！')">開始閱讀</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="downloads">
+    <h2>彩虹守護隊著色本下載</h2>
+    <div class="tabs-container">
+      <div class="tabs-header">
+        <button class="tab-btn active" onclick="switchTab(event, 's1')">第一季</button>
+        <button class="tab-btn" onclick="switchTab(event, 's2')">第二季</button>
+        <button class="tab-btn" onclick="switchTab(event, 's3')">第三季</button>
+        <button class="tab-btn" onclick="switchTab(event, 's4')">第四季</button>
+        <button class="tab-btn" onclick="switchTab(event, 's5')">第五季</button>
+      </div>
+
+      <div id="tab-s1" class="tab-content active">
+        <div class="ep-tabs-header">
+          <button class="ep-tab-btn active" onclick="switchEpTab(event, 's1-ep1')">第 1 集</button>
+          <button class="ep-tab-btn" onclick="switchEpTab(event, 's1-ep2')">第 2 集</button>
+          <button class="ep-tab-btn" onclick="switchEpTab(event, 's1-ep3')">第 3 集</button>
+        </div>
+
+        <div id="s1-ep1" class="ep-tab-content active">
+          <div class="download-card">
+            <div class="download-thumb" style="background-image: url('download/ep01_cover.png'); background-size: contain; background-repeat: no-repeat; background-position: center; color: transparent; border: 1px solid #ddd;">第 1 集封面</div>
+            <h4>第 1 集：神祕扭蛋</h4>
+            <p>跟著守護隊一起為神祕扭蛋著色吧！(全 10 頁)</p>
+            <a href="download/ep01.pdf" class="dl-btn" download>下載完整著色本 (PDF)</a>
+          </div>
+        </div>
+
+        <div id="s1-ep2" class="ep-tab-content">
+          <div class="download-card">
+            <div class="download-thumb">即將推出</div>
+            <h4>第 2 集著色圖準備中</h4>
+            <p>更多精采黑白線稿即將推出，敬請期待！</p>
+            <a href="javascript:void(0)" class="dl-btn" style="background:#ccc; pointer-events:none;">敬請期待</a>
+          </div>
+        </div>
+
+        <div id="s1-ep3" class="ep-tab-content">
+          <div class="download-card">
+            <div class="download-thumb">即將推出</div>
+            <h4>第 3 集著色圖準備中</h4>
+            <p>更多精采黑白線稿即將推出，敬請期待！</p>
+            <a href="javascript:void(0)" class="dl-btn" style="background:#ccc; pointer-events:none;">敬請期待</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-s2" class="tab-content">
+        <div class="download-card">
+          <div class="download-thumb">即將推出</div>
+          <h4>第二季著色圖準備中</h4>
+          <p>更多精采黑白線稿即將推出，敬請期待！</p>
+          <a href="javascript:void(0)" class="dl-btn" style="background:#ccc; pointer-events:none;">敬請期待</a>
+        </div>
+      </div>
+
+      <div id="tab-s3" class="tab-content">
+        <div class="download-card">
+          <div class="download-thumb">即將推出</div>
+          <h4>第三季著色圖準備中</h4>
+          <p>更多精采黑白線稿即將推出，敬請期待！</p>
+          <a href="javascript:void(0)" class="dl-btn" style="background:#ccc; pointer-events:none;">敬請期待</a>
+        </div>
+      </div>
+      
+      <div id="tab-s4" class="tab-content">
+        <div class="download-card">
+          <div class="download-thumb">即將推出</div>
+          <h4>第四季著色圖準備中</h4>
+          <p>更多精采黑白線稿即將推出，敬請期待！</p>
+          <a href="javascript:void(0)" class="dl-btn" style="background:#ccc; pointer-events:none;">敬請期待</a>
+        </div>
+      </div>
+      
+      <div id="tab-s5" class="tab-content">
+        <div class="download-card">
+          <div class="download-thumb">即將推出</div>
+          <h4>第五季著色圖準備中</h4>
+          <p>更多精采黑白線稿即將推出，敬請期待！</p>
+          <a href="javascript:void(0)" class="dl-btn" style="background:#ccc; pointer-events:none;">敬請期待</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    彩虹守護隊 Rainbow Guardians<br>
+    A creation by 蛤貝、蝦貝與鴨魯
+  </footer>
+
+  <script>
+    function switchTab(evt, tabId) {
+      // 移除所有按鈕的 active 狀態
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      tabBtns.forEach(btn => btn.classList.remove('active'));
+      
+      // 移除所有內容區的 active 狀態
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(content => content.classList.remove('active'));
+      
+      // 將點擊的按鈕與對應內容加上 active 狀態
+      evt.currentTarget.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    // 切換集數頁籤
+    function switchEpTab(evt, tabId) {
+      // 找到觸發按鈕所在的 ep-tabs-header，並移除該層級的所有 active 狀態
+      const header = evt.currentTarget.parentElement;
+      const tabBtns = header.querySelectorAll('.ep-tab-btn');
+      tabBtns.forEach(btn => btn.classList.remove('active'));
+      
+      // 找到對應的 tab-content 容器，移除所有 ep-tab-content 的 active 狀態
+      const tabContentContainer = header.parentElement;
+      const tabContents = tabContentContainer.querySelectorAll('.ep-tab-content');
+      tabContents.forEach(content => content.classList.remove('active'));
+      
+      // 將點擊的按鈕與對應內容加上 active 狀態
+      evt.currentTarget.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    // 切換下拉選單
+    function toggleDropdown(event, menuId) {
+      event.preventDefault(); // 阻止按鈕預設行為
+      event.stopPropagation(); // 阻止事件冒泡
+      
+      const menu = document.getElementById(menuId);
+      const isShowing = menu.classList.contains('show');
+      
+      // 關閉所有選單
+      document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+      
+      // 如果本來沒開，就打開
+      if (!isShowing) {
+        menu.classList.add('show');
+      }
+    }
+
+    // 點擊外部收合下拉選單
+    window.onclick = function(event) {
+      if (!event.target.matches('.dropdown-btn')) {
+        document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+          menu.classList.remove('show');
+        });
+      }
+    }
+  </script>
+</body>
+</html>

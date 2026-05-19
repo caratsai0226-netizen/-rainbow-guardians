@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>彩虹守護隊｜故事列表</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:"Microsoft JhengHei",sans-serif;
+  background:
+    linear-gradient(180deg,#eef8ff,#fff7fb);
+  min-height:100vh;
+}
+
+.topbar{
+  background:white;
+  padding:20px 30px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  box-shadow:
+    0 4px 18px rgba(0,0,0,0.08);
+}
+
+.topbar a{
+  color:#2564d8;
+  font-weight:bold;
+  text-decoration:none;
+  font-size:18px;
+}
+
+.title{
+  font-size:34px;
+  font-weight:bold;
+  color:#ff5fa2;
+}
+
+.container{
+  max-width:1400px;
+  margin:auto;
+  padding:60px 24px;
+}
+
+.season-title{
+  font-size:38px;
+  color:#ff5fa2;
+  margin-bottom:40px;
+  text-align:center;
+}
+
+.episode-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fill,minmax(260px,1fr));
+
+  gap:28px;
+}
+
+.card{
+
+  background:white;
+
+  border-radius:28px;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.12);
+
+  transition:0.25s;
+}
+
+.card:hover{
+  transform:
+    translateY(-6px);
+}
+
+.card img{
+  width:100%;
+  height:360px;
+  object-fit:cover;
+  display:block;
+}
+
+.card-content{
+  padding:22px;
+  text-align:center;
+}
+
+.card h3{
+  font-size:28px;
+  color:#2564d8;
+  margin-bottom:10px;
+}
+
+.card p{
+  color:#666;
+  font-size:18px;
+  line-height:1.7;
+  margin-bottom:22px;
+}
+
+.read-btn{
+
+  display:inline-block;
+
+  padding:
+    14px 28px;
+
+  border-radius:999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff7ec7,
+      #6ec6ff
+    );
+
+  color:white;
+
+  font-weight:bold;
+
+  text-decoration:none;
+
+  font-size:18px;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.15);
+}
+
+footer{
+  margin-top:60px;
+  padding:30px;
+  text-align:center;
+  background:#1d2a3b;
+  color:white;
+}
+
+@media(max-width:768px){
+
+  .title{
+    font-size:24px;
+  }
+
+  .season-title{
+    font-size:30px;
+  }
+
+  .card img{
+    height:280px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <a href="index.html">← 回首頁</a>
+
+  <div class="title">
+    彩虹守護隊
+  </div>
+
+  <div></div>
+</div>
+
+<div class="container">
+
+  <h1 class="season-title">
+    第一季：守護隊成立
+  </h1>
+
+  <div class="episode-grid">
+
+    <div class="card">
+
+      <img
+        src="assets/episodes/ep01_mystery_capsule/cover/cover.jpg"
+        alt="第一集 神祕扭蛋封面"
+      >
+
+      <div class="card-content">
+
+        <h3>
+          第1集
+        </h3>
+
+        <p>
+          神祕扭蛋
+        </p>
+
+        <a
+          class="read-btn"
+          href="ep01.html"
+        >
+          開始閱讀
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+彩虹守護隊 Rainbow Guardians
+</footer>
+
+</body>
+</html>
